@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_10_220215) do
+ActiveRecord::Schema.define(version: 2019_09_10_215847) do
 
   create_table "beers", force: :cascade do |t|
     t.string "name"
@@ -31,16 +31,10 @@ ActiveRecord::Schema.define(version: 2019_09_10_220215) do
     t.string "name"
   end
 
-  create_table "favorites", force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "beer_id"
-    t.index ["beer_id"], name: "index_favorites_on_beer_id"
-    t.index ["user_id"], name: "index_favorites_on_user_id"
-  end
-
   create_table "reviews", force: :cascade do |t|
     t.string "content"
     t.integer "rating"
+    t.boolean "is_favorite"
     t.integer "user_id"
     t.integer "beer_id"
     t.index ["beer_id"], name: "index_reviews_on_beer_id"
