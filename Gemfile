@@ -12,3 +12,4 @@ gem "activerecord", "~> 5.2"
 gem "sinatra", "~> 2.0"
 gem "sinatra-activerecord", "~> 2.0"
 gem "require_all"
+gem 'tty-prompt'
