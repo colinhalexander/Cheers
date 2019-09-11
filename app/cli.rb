@@ -21,6 +21,7 @@ class Cli
     end
 
     def display_beer_info(beer_info)
+        puts "Here is your beer's information:"
         puts "Name: #{beer_info[:name]}"
         puts "Brewery: #{beer_info[:brewery]}"
         puts "Category: #{beer_info[:category]}"
@@ -31,6 +32,32 @@ class Cli
         else
             puts "Description: Tasty beer!"
         end
+        puts "==============================="
+    end 
+
+    def prompt_for_review
+        puts "Review your beer:"
+        rating = prompt_for_rating.to_i
+        content = prompt_for_content
+        if prompt_for_favorite == "yes"
+            is_favorite = true
+        else 
+            is_favorite = false
+        end
+
+        review_hash = {
+            rating: rating,
+            content: content,
+            is_favorite: is_favorite
+        }
+    end
+
+    def prompt_for_favorite
+        prompt.select("Would you like to save this beer to your favorites?", %w(yes no))
+    end
+
+    def prompt_for_content
+        prompt.ask("Please leave a review of your beer:")
     end
 
     # def like_beer
@@ -41,10 +68,10 @@ class Cli
     #   prompt.select("What beer are you drinking right now?", %w(Lager Pilsner Ale))
     # end  
 
-    # def rate_beer
-    #   choices = %w(1 2 3 4 5)
-    #   prompt.multi_select("Rate your beer:", choices)    
-    # end
+    def prompt_for_rating
+      choices = %w(1 2 3 4 5)
+      prompt.select("Rate your beer:", choices)    
+    end
 
     # def recommendations
         # prompt.yes?('Would you like a recommendation? Y/N')
