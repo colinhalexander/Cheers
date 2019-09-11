@@ -11,5 +11,5 @@ ActiveRecord::Base.establish_connection({
     :database => 'db/cheers.db'
 })
 
-binding.pry 
+# binding.pry 
 0
