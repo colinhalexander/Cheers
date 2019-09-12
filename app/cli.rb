@@ -1,20 +1,13 @@
 require "tty-prompt"
+require "tty-box"
 require 'pry'
 
 class Cli
-    attr_reader :prompt
+    attr_reader :prompt, :box
     
     def initialize
         @prompt = TTY::Prompt.new
     end
-
-    # #def Welcome
-    #   puts "Cheers"
-    # end
-
-    # def name
-    #  name = @prompt.ask('What is your name?', default: ENV['USER'])
-    # end
 
     def prompt_for_beer_name
         @prompt.ask('Please enter the name of a beer:')
@@ -60,24 +53,38 @@ class Cli
         prompt.ask("Please leave a review of your beer:")
     end
 
-    # def like_beer
-    #  prompt.yes?('Do you like beer? Y/N')
-    # end
-
-    # def current_beer
-    #   prompt.select("What beer are you drinking right now?", %w(Lager Pilsner Ale))
-    # end  
-
     def prompt_for_rating
       choices = %w(1 2 3 4 5)
       prompt.select("Rate your beer:", choices)    
     end
 
-    # def recommendations
-        # prompt.yes?('Would you like a recommendation? Y/N')
-    # end
+    def display_welcome_page
+        system("clear")
+        box = TTY::Box.frame(width: 68, height: 10) do 
+            "             _____ _    _ ______ ______ _____   _____ 
+            / ____| |  | |  ____|  ____|  __ \\ / ____|
+           | |    | |__| | |__  | |__  | |__) | (___  
+           | |    |  __  |  __| |  __| |  _  / \\___ \\ 
+           | |____| |  | | |____| |____| | \\ \\ ____) |
+            \\_____|_|  |_|______|______|_|  \\_\\_____/ 
+
+                       RATE YOUR BEER HERE!
+            "
+        end
+        print box
+    end
+
+    def prompt_for_new_or_returning_user
+        prompt.select("Are you a new or returning user?", ["Returning User", "New User"])
+    end
+
+    def prompt_for_new_username
+        system("clear")
+        prompt.ask("Please enter your new username:")
+    end
+
+    def prompt_for_returning_username
+        user_names = User.pluck(:name)
+        prompt.select("Please select your username", user_names)
+    end
 end
-
-# cli = Cli.new
-
-# binding.pry
