@@ -91,7 +91,25 @@ class Cli
     end
 
     def main_menu_prompt
-        menu_options = ["Find a Beer to Review", "Get a Recommendation", "See My Favorites", "See My Past Reviews", "Exit App"]
+        menu_options = ["Find a Beer to Review", "Get a Recommendation", "See My Favorites", "See My Past Reviews", "Log Out", "Exit App"]
         @prompt.select("What would you like to do?", menu_options)
+    end
+
+    def display_favorites
+        
+    end
+
+    def log_out
+        system("clear")
+        puts "Logging you out."
+        sleep(1)
+        system("clear")
+        puts "Logging you out.."
+        sleep(1)
+        system("clear")
+        puts "Logging you out..."
+        sleep(1)
+        puts "Come back soon!"
+        sleep(1.5)
     end
 end

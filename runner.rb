@@ -22,6 +22,7 @@ end
 
 def main_menu(cli, current_user)
     cli.display_cheers_logo
+    puts "#{current_user}'s HomePage"
     menu_selection = cli.main_menu_prompt
 
     case menu_selection
@@ -36,6 +37,9 @@ def main_menu(cli, current_user)
 
     when "See My Past Reviews"
 
+    when "Log Out"
+        cli.log_out
+        start
     when "Exit App"
         system("clear")
         exit
@@ -54,6 +58,10 @@ def leave_a_review(cli, user, beer)
     review_hash[:user_id] = user.id
     review_hash[:beer_id] = beer.id
     new_review = Review.create(review_hash)
+end
+
+def favorite_page
+    
 end
 
 start
