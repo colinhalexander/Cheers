@@ -2,11 +2,15 @@ require_relative './config/environment'
 
 def start
     cli = Cli.new
-
-    # Login Page
+    
     cli.display_cheers_logo
-    user_type = cli.prompt_for_new_or_returning_user
+    current_user = new_or_returning_user(cli)
 
+    main_menu(cli, current_user)
+end
+
+def new_or_returning_user(cli)
+    user_type = cli.prompt_for_new_or_returning_user
     if user_type == "New User"
         cli.display_cheers_logo
         username = cli.prompt_for_new_username
@@ -16,8 +20,6 @@ def start
         username = cli.prompt_for_returning_username
         current_user = User.find_by(name: username)
     end
-
-    main_menu(cli, current_user)
 end
 
 def main_menu(cli, current_user)
@@ -42,7 +44,7 @@ def main_menu(cli, current_user)
         cli.log_out
         start
     when "Exit App"
-        system("clear")
+        cli.randy_kings_farewell
         exit
     end
 end

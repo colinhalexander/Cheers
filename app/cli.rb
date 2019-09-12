@@ -1,6 +1,7 @@
 require "tty-prompt"
 require "tty-box"
-require 'pry'
+require "paint"
+require "pry"
 
 class Cli
     attr_reader :prompt
@@ -37,7 +38,6 @@ class Cli
     end
 
     def prompt_for_review
-        puts "Review your beer:"
         rating = prompt_for_rating.to_i
         content = prompt_for_content
         if prompt_for_favorite == "yes"
@@ -124,5 +124,43 @@ class Cli
 
     def return_to_main_menu
         prompt.select("", ["Return to Main Menu"])
+    end
+
+    def randy_king
+".===================================================================.
+||                                                                 ||
+||                            ___                                  ||
+||                          .'   '.                                ||
+||        See ya!          /       \\           oOoOo               ||
+||                        |         |       ,==|||||               ||
+||                         \\       /       _|| |||||               ||
+||                          '.___.'    _.-'^|| |||||               ||
+||                        __/_______.-'     '==HHHHH               ||
+||                   _.-'` /                                       ||
+||                .-'     /   oOoOo                                ||
+||                `-._   / ,==|||||                                ||
+||                    '-/._|| |||||                                ||
+||                     /  ^|| |||||                                ||
+||                    /    '==HHHHH                                ||
+||                   /________                                     ||
+||                   `\\       `\\                                   ||
+||                     \\        `\\   /                             ||
+||                      \\         `\\/                              ||
+||                      /                                          ||
+||                     /                                           ||
+||                    /_____                                       ||
+||                                                                 ||
+'==================================================================='"
+    end
+
+    def randy_kings_farewell
+        colors = [:blue, :red, :green]
+        2.times do 
+            colors.each do |color|
+                system("clear")
+                puts Paint[randy_king, color]
+                sleep(0.5)
+            end
+        end
     end
 end
