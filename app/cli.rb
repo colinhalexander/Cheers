@@ -31,6 +31,11 @@ class Cli
         puts "================================="
     end 
 
+    def invalid_beer_name
+        puts "Sorry, we can't find your beer in our database."
+        puts "Please try again."
+    end
+
     def prompt_for_review
         puts "Review your beer:"
         rating = prompt_for_rating.to_i
@@ -95,8 +100,12 @@ class Cli
         @prompt.select("What would you like to do?", menu_options)
     end
 
-    def display_favorites
-        
+    def display_favorites(favorites)
+        system("clear")
+        puts "These are your favorited beers:"
+        favorites.each do |favorite| 
+            puts "• #{favorite.beer.name}"
+        end
     end
 
     def log_out
@@ -111,5 +120,9 @@ class Cli
         sleep(1)
         puts "Come back soon!"
         sleep(1.5)
+    end
+
+    def return_to_main_menu
+        prompt.select("", ["Return to Main Menu"])
     end
 end

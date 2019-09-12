@@ -22,7 +22,7 @@ end
 
 def main_menu(cli, current_user)
     cli.display_cheers_logo
-    puts "#{current_user}'s HomePage"
+    puts "#{current_user.name}'s HomePage"
     menu_selection = cli.main_menu_prompt
 
     case menu_selection
@@ -34,7 +34,8 @@ def main_menu(cli, current_user)
     when "Get a Recommendation"
 
     when "See My Favorites"
-
+        favorites_page(cli, current_user)
+        main_menu(cli, current_user)
     when "See My Past Reviews"
 
     when "Log Out"
@@ -49,8 +50,14 @@ end
 def find_a_beer_by_name(cli)
     beer_name = cli.prompt_for_beer_name
     beer = Beer.find_by(name: beer_name)
-    cli.display_beer_info(beer.info_hash)
-    beer
+    if beer
+        cli.display_beer_info(beer.info_hash)
+        beer
+    else
+        cli.invalid_beer_name
+        sleep(2)
+        find_a_beer_by_name(cli)
+    end
 end
 
 def leave_a_review(cli, user, beer)
@@ -60,8 +67,10 @@ def leave_a_review(cli, user, beer)
     new_review = Review.create(review_hash)
 end
 
-def favorite_page
-    
+def favorites_page(cli, current_user)
+    favorites = current_user.reviews.where("is_favorite = 't'").uniq
+    cli.display_favorites(favorites)
+    cli.return_to_main_menu
 end
 
 start

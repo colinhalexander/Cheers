@@ -11,7 +11,7 @@ class Beer < ActiveRecord::Base
             ibu: self.ibu,
             description: self.description,
             brewery: self.brewery.name,
-            category: self.category.name
+            category: (self.category ? self.category.name : "Uncategorized")
         }
     end
 end
