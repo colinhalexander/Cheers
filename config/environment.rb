@@ -11,5 +11,7 @@ ActiveRecord::Base.establish_connection({
     :database => 'db/cheers.db'
 })
 
+ActiveRecord::Base.logger = nil
+
 # binding.pry 
 0
