@@ -1,5 +1,6 @@
 require "tty-prompt"
 require 'pry'
+require 'Paint'
 
 class Cli
     attr_reader :prompt
@@ -22,7 +23,7 @@ class Cli
         if beer_info[:description] != nil
             puts "Description: #{beer_info[:description]}"
         else
-            puts "Description: Tasty beer!"
+            puts Paint["Description: Tasty beer!", :blue :bright]
         end
         puts "==============================="
     end 
@@ -45,7 +46,7 @@ class Cli
     end
 
     def prompt_for_favorite
-        prompt.select("Would you like to save this beer to your favorites?", %w(yes no))
+        prompt.select("Would you like to save this beer to your favorites?", %w(yes no), active_color: :blue)
     end
 
     def prompt_for_content
