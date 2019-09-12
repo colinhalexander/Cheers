@@ -1,6 +1,7 @@
 require "tty-prompt"
 require "tty-box"
-require 'pry'
+require "paint"
+require "pry"
 
 class Cli
     attr_reader :prompt
@@ -11,7 +12,7 @@ class Cli
 
     def prompt_for_beer_name
         system("clear")
-        @prompt.ask('Please enter the name of a beer:')
+        prompt.ask('Please enter the name of a beer:')
     end
 
     def display_beer_info(beer_info)
@@ -37,7 +38,6 @@ class Cli
     end
 
     def prompt_for_review
-        puts "Review your beer:"
         rating = prompt_for_rating.to_i
         content = prompt_for_content
         if prompt_for_favorite == "yes"
@@ -97,7 +97,7 @@ class Cli
 
     def main_menu_prompt
         menu_options = ["Find a Beer to Review", "Get a Recommendation", "See My Favorites", "See My Past Reviews", "Log Out", "Exit App"]
-        @prompt.select("What would you like to do?", menu_options)
+        prompt.select("What would you like to do?", menu_options)
     end
 
     def display_favorites(favorites)
@@ -105,6 +105,14 @@ class Cli
         puts "These are your favorited beers:"
         favorites.each do |favorite| 
             puts "• #{favorite.beer.name}"
+        end
+    end
+
+    def display_reviews(reviews)
+        system("clear")
+        puts "These are your past reviews:"
+        reviews.each do |review| 
+            puts "• #{review.beer.name} - #{review.rating}/5"
         end
     end
 
@@ -122,7 +130,58 @@ class Cli
         sleep(1.5)
     end
 
+    def recommendations_menu_prompt
+        prompt.select("How would you like to get your recommendation?", ["Recommend a Random Beer",
+    "Recommend by Category", "Recommend by Brewery", "Return to Main Menu"])
+    end
+
+    def prompt_after_recommendation
+        prompt.select("What would you like to do?", ["Return to Recommendations Menu", "Return to Main Menu"])
+    end
+
+    def prompt_for_categories(categories)
+        prompt.select("Which category would you like a recommendation from?", categories)
+    end
+
     def return_to_main_menu
         prompt.select("", ["Return to Main Menu"])
+    end
+
+    def randy_king
+".===================================================================.
+||                                                                 ||
+||                            ___                                  ||
+||                          .'   '.                                ||
+||        See ya!          /       \\           oOoOo               ||
+||                        |         |       ,==|||||               ||
+||                         \\       /       _|| |||||               ||
+||                          '.___.'    _.-'^|| |||||               ||
+||                        __/_______.-'     '==HHHHH               ||
+||                   _.-'` /                                       ||
+||                .-'     /   oOoOo                                ||
+||                `-._   / ,==|||||                                ||
+||                    '-/._|| |||||                                ||
+||                     /  ^|| |||||                                ||
+||                    /    '==HHHHH                                ||
+||                   /________                                     ||
+||                   `\\       `\\                                   ||
+||                     \\        `\\   /                             ||
+||                      \\         `\\/                              ||
+||                      /                                          ||
+||                     /                                           ||
+||                    /_____                                       ||
+||                                                                 ||
+'==================================================================='"
+    end
+
+    def randy_kings_farewell
+        colors = [:blue, :red, :green]
+        2.times do 
+            colors.each do |color|
+                system("clear")
+                puts Paint[randy_king, color]
+                sleep(0.5)
+            end
+        end
     end
 end
