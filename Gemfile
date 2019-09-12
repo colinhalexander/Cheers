@@ -15,3 +15,5 @@ gem "require_all"
 gem 'tty-prompt'
 
 gem "tty-box", "~> 0.4.1"
+
+gem "paint", "~> 2.1"
