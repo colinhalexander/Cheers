@@ -8,14 +8,6 @@ class Cli
         @prompt = TTY::Prompt.new
     end
 
-    # #def Welcome
-    #   puts "Cheers"
-    # end
-
-    # def name
-    #  name = @prompt.ask('What is your name?', default: ENV['USER'])
-    # end
-
     def prompt_for_beer_name
         @prompt.ask('Please enter the name of a beer:')
     end
