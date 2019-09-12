@@ -4,15 +4,14 @@ class Beer < ActiveRecord::Base
     belongs_to :brewery
     belongs_to :category
 
-    def self.get_beer_info_by_name(beer_name)
-        beer = self.find_by(name: beer_name)
+    def info_hash
         beer_info = {
-            name: beer.name,
-            abv: beer.abv,
-            ibu: beer.ibu,
-            description: beer.description,
-            brewery: beer.brewery.name,
-            category: beer.category.name
+            name: self.name,
+            abv: self.abv,
+            ibu: self.ibu,
+            description: self.description,
+            brewery: self.brewery.name,
+            category: self.category.name
         }
     end
 end

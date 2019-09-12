@@ -3,18 +3,21 @@ require "tty-box"
 require 'pry'
 
 class Cli
-    attr_reader :prompt, :box
+    attr_reader :prompt
     
     def initialize
         @prompt = TTY::Prompt.new
     end
 
     def prompt_for_beer_name
+        system("clear")
         @prompt.ask('Please enter the name of a beer:')
     end
 
     def display_beer_info(beer_info)
+        system("clear")
         puts "Here is your beer's information:"
+        puts "================================="
         puts "Name: #{beer_info[:name]}"
         puts "Brewery: #{beer_info[:brewery]}"
         puts "Category: #{beer_info[:category]}"
@@ -25,7 +28,7 @@ class Cli
         else
             puts "Description: Tasty beer!"
         end
-        puts "==============================="
+        puts "================================="
     end 
 
     def prompt_for_review
@@ -58,7 +61,7 @@ class Cli
       prompt.select("Rate your beer:", choices)    
     end
 
-    def display_welcome_page
+    def display_cheers_logo
         system("clear")
         box = TTY::Box.frame(width: 68, height: 10) do 
             "             _____ _    _ ______ ______ _____   _____ 
@@ -79,12 +82,16 @@ class Cli
     end
 
     def prompt_for_new_username
-        system("clear")
         prompt.ask("Please enter your new username:")
     end
 
     def prompt_for_returning_username
         user_names = User.pluck(:name)
         prompt.select("Please select your username", user_names)
+    end
+
+    def main_menu_prompt
+        menu_options = ["Find a Beer to Review", "Get a Recommendation", "See My Favorites", "See My Past Reviews", "Exit App"]
+        @prompt.select("What would you like to do?", menu_options)
     end
 end
