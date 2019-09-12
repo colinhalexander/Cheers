@@ -34,12 +34,13 @@ def main_menu(cli, current_user)
         leave_a_review(cli, current_user, current_beer)
         main_menu(cli, current_user)
     when "Get a Recommendation"
-
+        recommendations_menu(cli, current_user)
     when "See My Favorites"
         favorites_page(cli, current_user)
         main_menu(cli, current_user)
     when "See My Past Reviews"
-
+        reviews_page(cli, current_user)
+        main_menu(cli, current_user)
     when "Log Out"
         cli.log_out
         start
@@ -70,9 +71,64 @@ def leave_a_review(cli, user, beer)
 end
 
 def favorites_page(cli, current_user)
-    favorites = current_user.reviews.where("is_favorite = 't'").uniq
+    favorites = current_user.reviews.where(is_favorite: 't').uniq
     cli.display_favorites(favorites)
     cli.return_to_main_menu
+end
+
+def reviews_page(cli, current_user)
+    reviews = current_user.reviews
+    cli.display_reviews(reviews)
+    cli.return_to_main_menu
+end
+
+def recommendations_menu(cli, current_user)
+    system("clear")
+    selection = cli.recommendations_menu_prompt
+    case selection 
+    when "Recommend a Random Beer"
+        random_beer(cli)
+        after_recommendation_menu(cli, current_user)
+    when "Recommend by Category"
+        category = category_menu(cli)
+        random_beer_by_category(cli, category)
+        after_recommendation_menu(cli, current_user)
+    when "Recommend by Brewery"
+
+    when "Return to Main Menu"
+        main_menu(cli, current_user)
+    end
+end
+
+def random_beer(cli)
+    system("clear")
+    id = rand(Beer.all.count) + 1
+    beer = Beer.find(id)
+    cli.display_beer_info(beer.info_hash)
+end
+
+def category_menu(cli)
+    system("clear")
+    categories = Category.pluck(:name)
+    selection = cli.prompt_for_categories(categories)
+    category = Category.find_by(name: selection)
+end
+
+def random_beer_by_category(cli, category)
+    beers_in_category = Beer.where(category_id: category.id)
+    id = rand(beers_in_category.count)
+    beer = beers_in_category[id]
+    cli.display_beer_info(beer.info_hash)
+end
+
+def after_recommendation_menu(cli, current_user)
+    selection = cli.prompt_after_recommendation
+    case selection
+    when "Return to Recommendations Menu"
+        recommendations_menu(cli, current_user)
+    when "Return to Main Menu"
+        main_menu(cli, current_user)
+    end
 end
 
 start

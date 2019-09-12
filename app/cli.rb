@@ -12,7 +12,7 @@ class Cli
 
     def prompt_for_beer_name
         system("clear")
-        @prompt.ask('Please enter the name of a beer:')
+        prompt.ask('Please enter the name of a beer:')
     end
 
     def display_beer_info(beer_info)
@@ -97,7 +97,7 @@ class Cli
 
     def main_menu_prompt
         menu_options = ["Find a Beer to Review", "Get a Recommendation", "See My Favorites", "See My Past Reviews", "Log Out", "Exit App"]
-        @prompt.select("What would you like to do?", menu_options)
+        prompt.select("What would you like to do?", menu_options)
     end
 
     def display_favorites(favorites)
@@ -105,6 +105,14 @@ class Cli
         puts "These are your favorited beers:"
         favorites.each do |favorite| 
             puts "• #{favorite.beer.name}"
+        end
+    end
+
+    def display_reviews(reviews)
+        system("clear")
+        puts "These are your past reviews:"
+        reviews.each do |review| 
+            puts "• #{review.beer.name} - #{review.rating}/5"
         end
     end
 
@@ -120,6 +128,19 @@ class Cli
         sleep(1)
         puts "Come back soon!"
         sleep(1.5)
+    end
+
+    def recommendations_menu_prompt
+        prompt.select("How would you like to get your recommendation?", ["Recommend a Random Beer",
+    "Recommend by Category", "Recommend by Brewery", "Return to Main Menu"])
+    end
+
+    def prompt_after_recommendation
+        prompt.select("What would you like to do?", ["Return to Recommendations Menu", "Return to Main Menu"])
+    end
+
+    def prompt_for_categories(categories)
+        prompt.select("Which category would you like a recommendation from?", categories)
     end
 
     def return_to_main_menu
