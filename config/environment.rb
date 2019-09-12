@@ -1,6 +1,7 @@
 require "require_all"
 require 'sinatra/activerecord'
 require 'pry'
+require 'paint'
 
 
 
