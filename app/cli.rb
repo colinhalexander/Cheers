@@ -22,7 +22,11 @@ class Cli
         puts "Name: #{beer_info[:name]}"
         puts "Brewery: #{beer_info[:brewery]}"
         puts "Category: #{beer_info[:category]}"
-        puts "ABV: #{beer_info[:abv]}%"
+        if beer_info[:abv] > 0
+            puts "ABV: #{beer_info[:abv]}%"
+        else
+            puts "ABV: Unavailable"
+        end
         puts "IBU: #{beer_info[:ibu]}"
         if beer_info[:description] != nil
             puts "Description: #{beer_info[:description]}"
@@ -119,15 +123,15 @@ class Cli
     def log_out
         system("clear")
         puts "Logging you out."
-        sleep(1)
+        sleep(0.5)
         system("clear")
         puts "Logging you out.."
-        sleep(1)
+        sleep(0.5)
         system("clear")
         puts "Logging you out..."
-        sleep(1)
+        sleep(0.5)
         puts "Come back soon!"
-        sleep(1.5)
+        sleep(1)
     end
 
     def recommendations_menu_prompt
@@ -139,12 +143,8 @@ class Cli
         prompt.select("What would you like to do?", ["Review this Beer", "Return to Recommendations Menu", "Return to Main Menu"])
     end
 
-    def prompt_for_categories(categories)
-        prompt.select("Which category would you like a recommendation from?", categories)
-    end
-
-    def prompt_for_breweries(breweries)
-        prompt.select("Which brewery would you like a recommendation from?", breweries)
+    def prompt_for_instances(instances, class_name)
+        prompt.select("Which #{class_name.downcase} would you like a recommendation from?", instances)
     end
 
     def return_to_main_menu
