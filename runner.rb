@@ -94,7 +94,9 @@ def recommendations_menu(cli, current_user)
         random_beer_by_category(cli, category)
         after_recommendation_menu(cli, current_user)
     when "Recommend by Brewery"
-
+        brewery = brewery_menu(cli)
+        random_beer_by_brewery(cli, brewery)
+        after_recommendation_menu(cli, current_user)
     when "Return to Main Menu"
         main_menu(cli, current_user)
     end
@@ -114,10 +116,22 @@ def category_menu(cli)
     category = Category.find_by(name: selection)
 end
 
+def brewery_menu(cli)
+    system("clear")
+    breweries = Brewery.pluck(:name)
+    selection = cli.prompt_for_breweries(breweries)
+    brewery = Brewery.find_by(name: selection)
+end
+
 def random_beer_by_category(cli, category)
     beers_in_category = Beer.where(category_id: category.id)
-    id = rand(beers_in_category.count)
-    beer = beers_in_category[id]
+    beer = beers_in_category[rand(beers_in_category.count)]
+    cli.display_beer_info(beer.info_hash)
+end
+
+def random_beer_by_brewery(cli, brewery)
+    beers_in_brewery = Beer.where(brewery_id: brewery.id)
+    beer = beers_in_brewery[rand(beers_in_brewery.count)]
     cli.display_beer_info(beer.info_hash)
 end
 

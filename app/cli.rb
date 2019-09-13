@@ -143,6 +143,10 @@ class Cli
         prompt.select("Which category would you like a recommendation from?", categories)
     end
 
+    def prompt_for_breweries(breweries)
+        prompt.select("Which brewery would you like a recommendation from?", breweries)
+    end
+
     def return_to_main_menu
         prompt.select("", ["Return to Main Menu"])
     end
