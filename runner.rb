@@ -37,10 +37,8 @@ def main_menu(cli, current_user)
         recommendations_menu(cli, current_user)
     when "See My Favorites"
         favorites_page(cli, current_user)
-        main_menu(cli, current_user)
     when "See My Past Reviews"
         reviews_page(cli, current_user)
-        main_menu(cli, current_user)
     when "Log Out"
         cli.log_out
         start
@@ -63,23 +61,26 @@ def find_a_beer_by_name(cli)
     end
 end
 
-def leave_a_review(cli, user, beer)
+def leave_a_review(cli, current_user, beer)
     review_hash = cli.prompt_for_review
-    review_hash[:user_id] = user.id
+    review_hash[:user_id] = current_user.id
     review_hash[:beer_id] = beer.id
     new_review = Review.create(review_hash)
+    reviews_page(cli, current_user)
 end
 
 def favorites_page(cli, current_user)
     favorites = current_user.reviews.where(is_favorite: 't').uniq
     cli.display_favorites(favorites)
     cli.return_to_main_menu
+    main_menu(cli, current_user)
 end
 
 def reviews_page(cli, current_user)
     reviews = current_user.reviews
     cli.display_reviews(reviews)
     cli.return_to_main_menu
+    main_menu(cli, current_user)
 end
 
 def recommendations_menu(cli, current_user)
@@ -87,16 +88,16 @@ def recommendations_menu(cli, current_user)
     selection = cli.recommendations_menu_prompt
     case selection 
     when "Recommend a Random Beer"
-        random_beer(cli)
-        after_recommendation_menu(cli, current_user)
+        beer = random_beer(cli)
+        after_recommendation_menu(cli, current_user, beer)
     when "Recommend by Category"
         category = category_menu(cli)
-        random_beer_by_category(cli, category)
-        after_recommendation_menu(cli, current_user)
+        beer = random_beer_by_category(cli, category)
+        after_recommendation_menu(cli, current_user, beer)
     when "Recommend by Brewery"
         brewery = brewery_menu(cli)
-        random_beer_by_brewery(cli, brewery)
-        after_recommendation_menu(cli, current_user)
+        beer = random_beer_by_brewery(cli, brewery)
+        after_recommendation_menu(cli, current_user, beer)
     when "Return to Main Menu"
         main_menu(cli, current_user)
     end
@@ -107,6 +108,7 @@ def random_beer(cli)
     id = rand(Beer.all.count) + 1
     beer = Beer.find(id)
     cli.display_beer_info(beer.info_hash)
+    beer
 end
 
 def category_menu(cli)
@@ -127,17 +129,21 @@ def random_beer_by_category(cli, category)
     beers_in_category = Beer.where(category_id: category.id)
     beer = beers_in_category[rand(beers_in_category.count)]
     cli.display_beer_info(beer.info_hash)
+    beer
 end
 
 def random_beer_by_brewery(cli, brewery)
     beers_in_brewery = Beer.where(brewery_id: brewery.id)
     beer = beers_in_brewery[rand(beers_in_brewery.count)]
     cli.display_beer_info(beer.info_hash)
+    beer
 end
 
-def after_recommendation_menu(cli, current_user)
+def after_recommendation_menu(cli, current_user, current_beer)
     selection = cli.prompt_after_recommendation
     case selection
+    when "Review this Beer"
+        leave_a_review(cli, current_user, current_beer)
     when "Return to Recommendations Menu"
         recommendations_menu(cli, current_user)
     when "Return to Main Menu"

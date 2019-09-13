@@ -136,7 +136,7 @@ class Cli
     end
 
     def prompt_after_recommendation
-        prompt.select("What would you like to do?", ["Return to Recommendations Menu", "Return to Main Menu"])
+        prompt.select("What would you like to do?", ["Review this Beer", "Return to Recommendations Menu", "Return to Main Menu"])
     end
 
     def prompt_for_categories(categories)
