@@ -30,9 +30,8 @@ def main_menu(cli, current_user)
     case menu_selection
     when "Find a Beer to Review"
         current_beer = find_a_beer_by_name(cli)
-        sleep(1)
+        sleep(0.5)
         leave_a_review(cli, current_user, current_beer)
-        main_menu(cli, current_user)
     when "Get a Recommendation"
         recommendations_menu(cli, current_user)
     when "See My Favorites"
@@ -91,11 +90,11 @@ def recommendations_menu(cli, current_user)
         beer = random_beer(cli)
         after_recommendation_menu(cli, current_user, beer)
     when "Recommend by Category"
-        category = category_menu(cli)
+        category = recommend_by_x_menu(cli, Category)
         beer = random_beer_by_category(cli, category)
         after_recommendation_menu(cli, current_user, beer)
     when "Recommend by Brewery"
-        brewery = brewery_menu(cli)
+        brewery = recommend_by_x_menu(cli, Brewery)
         beer = random_beer_by_brewery(cli, brewery)
         after_recommendation_menu(cli, current_user, beer)
     when "Return to Main Menu"
@@ -111,18 +110,11 @@ def random_beer(cli)
     beer
 end
 
-def category_menu(cli)
+def recommend_by_x_menu(cli, class_type)
     system("clear")
-    categories = Category.pluck(:name)
-    selection = cli.prompt_for_categories(categories)
-    category = Category.find_by(name: selection)
-end
-
-def brewery_menu(cli)
-    system("clear")
-    breweries = Brewery.pluck(:name)
-    selection = cli.prompt_for_breweries(breweries)
-    brewery = Brewery.find_by(name: selection)
+    instances = class_type.pluck(:name)
+    selection = cli.prompt_for_instances(instances, class_type.name)
+    instance = class_type.find_by(name: selection)
 end
 
 def random_beer_by_category(cli, category)

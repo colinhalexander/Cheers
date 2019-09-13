@@ -10,6 +10,3 @@ ActiveRecord::Base.establish_connection({
 })
 
 ActiveRecord::Base.logger = nil
-
-# binding.pry 
-0
