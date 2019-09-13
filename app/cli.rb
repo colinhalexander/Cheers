@@ -22,7 +22,11 @@ class Cli
         puts "Name: #{beer_info[:name]}"
         puts "Brewery: #{beer_info[:brewery]}"
         puts "Category: #{beer_info[:category]}"
-        puts "ABV: #{beer_info[:abv]}%"
+        if beer_info[:abv] > 0
+            puts "ABV: #{beer_info[:abv]}%"
+        else
+            puts "ABV: Unavailable"
+        end
         puts "IBU: #{beer_info[:ibu]}"
         if beer_info[:description] != nil
             puts "Description: #{beer_info[:description]}"
