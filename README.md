@@ -14,7 +14,7 @@ Once the gems are correctly installed run 'ruby runner.rb' in your terminal in o
 
 When the app loads you are directed to a Welcome Page. You can select if you are a New or Returning User. The app allows one to rate beers, leave a review of a beer and to save and record their favorite beers. The user is also able to get a recommendation for a beer. 
 
-<video src="Mod1 Project Video.mov" width="320" height="200" controls preload></video>
+<video src="Mod1-Project-Video.mp4" width="320" height="200" controls preload></video>
 
 # License:
 
